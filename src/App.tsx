@@ -8,7 +8,7 @@
 import { useColorScheme } from "nativewind";
 import "./global.css"
 
-import React from 'react';
+import React, { useContext } from 'react';
 import type { PropsWithChildren } from 'react';
 import {
   SafeAreaView,
@@ -19,6 +19,8 @@ import {
   View,
 } from 'react-native';
 import { Header } from "./components/header";
+import BluetoothDevice from "./components/BluetoothDevice";
+import { ThemeContext, ThemeProvider } from "./Theme";
 
 
 type SectionProps = PropsWithChildren<{
@@ -48,21 +50,22 @@ function Section({ children, title }: SectionProps): React.JSX.Element {
 
 function App(): React.JSX.Element {
 
-  const { colorScheme, setColorScheme } = useColorScheme();
-  const isDarkMode = colorScheme === 'dark'
+  const { isDarkMode } = useContext(ThemeContext)
 
   return (
-    <SafeAreaView className={`${isDarkMode ? 'bg-black' : 'bg-white'}`} >
-      <StatusBar
+    <ThemeProvider>
+      <SafeAreaView className={`${isDarkMode ? 'bg-black' : 'bg-white'}`} >
+        <StatusBar
 
-      // barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-      // backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <View className="mx-4 h-full">
-        <Header />
-
-      </View>
-    </SafeAreaView>
+        // barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+        // backgroundColor={backgroundStyle.backgroundColor}
+        />
+        <View className="mx-4 h-full">
+          <Header />
+          <BluetoothDevice /> 
+        </View>
+      </SafeAreaView>
+    </ThemeProvider>
   );
 }
 
